@@ -67,7 +67,7 @@ public abstract class Produto{
 	public float getPreco() {
 		return preco;
 	}
-	public void setValidade(float preco) {
+	public void setPreco(float preco) {
 		this.preco = preco;
 	}
 	public String getValidade() {
@@ -87,8 +87,5 @@ public abstract class Produto{
 	}
 	public void setLoja(Loja loja) {
 		this.loja = loja;
-	}
-	public void setPreco(float preco) {
-		this.preco = preco;
 	}
 }

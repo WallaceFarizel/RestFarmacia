@@ -1,55 +1,44 @@
 package br.com.farmacia.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.farmacia.model.negocio.Pharmacos;
 import br.com.farmacia.model.service.PharmacosService;
 
-@Controller
+@RestController
+@RequestMapping("api/pharmacos")
 public class PharmacosController {
 
 	@Autowired
 	private PharmacosService service;
 	
-	@RequestMapping(value = "/produto/pharmacos", method = RequestMethod.GET)
-	public String showLista(
-				Model model
-			) {
-		model.addAttribute("pharmacos", service.obterLista());
-		
-		return "/produto/pharmaco/lista";
+	@RequestMapping
+	public List<Pharmacos> obterLista(){
+		return service.obterLista();
 	}
 	
-	@RequestMapping(value = "/produto/pharmaco", method = RequestMethod.GET)
-	public String showDetalhe() {
-		return "/produto/pharmaco/detalhe";
+	@RequestMapping("{id}")
+	public Optional<Pharmacos> obterPorId(@PathVariable Integer id) {
+		return service.obterPorId(id);
 	}
 	
-	@RequestMapping(value = "/produto/pharmaco", method = RequestMethod.POST)
-	public String incluir(
-				Model model,
-				Pharmacos pharmaco
-			) {
-		
+	@PostMapping
+	public void incluir(@RequestBody Pharmacos pharmaco) {
 		service.incluir(pharmaco);
-		
-		return this.showLista(model);
 	}
 	
-	@RequestMapping(value = "/produto/pharmaco/excluir/{id}", method = RequestMethod.GET)
-	public String excluir(
-				Model model,
-				@PathVariable Integer id
-			) {
-		
+	@DeleteMapping("{id}")
+	public void excluir(@PathVariable Integer id) {
 		service.excluir(id);
-		
-		return this.showLista(model);
 	}
 
 	public PharmacosService getService() {

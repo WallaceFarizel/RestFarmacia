@@ -1,18 +1,10 @@
 package br.com.farmacia.model.negocio;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "TRede")
@@ -21,18 +13,9 @@ public class Rede{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(unique = true)
 	private String nome;
 	private String slogan;
 	private int anoDeCriacao;
-	@OneToMany(
-			mappedBy = "rede",
-			fetch = FetchType.EAGER,
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
-		)
-	@JsonManagedReference
-	private List<Loja> lojas;
 	
 	public Rede() {
 		
@@ -82,9 +65,6 @@ public class Rede{
 	public int getAnoDeCriacao() {
 		return anoDeCriacao;
 	}
-	public List<Loja> getLojas() {
-		return lojas;
-	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -93,9 +73,6 @@ public class Rede{
 	}
 	public void setAnoDeCriacao(int anoDeCriacao) {
 		this.anoDeCriacao = anoDeCriacao;
-	}
-	public void setLojas(List<Loja> lojas) {
-		this.lojas = lojas;
 	}
 
 	@Override
