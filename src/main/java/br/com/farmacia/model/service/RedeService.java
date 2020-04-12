@@ -30,7 +30,7 @@ public class RedeService {
 	public void excluir(Integer id) {
 		repository.deleteById(id);
 	}
-
+	
 	public IRedeRepository getRepository() {
 		return repository;
 	}

@@ -24,8 +24,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 	)
 @JsonSubTypes({
     @JsonSubTypes.Type(value=Pharmacos.class, name = "Pharmacos"),
-    @JsonSubTypes.Type(value=Beleza.class, name = "Beleza"),
-    @JsonSubTypes.Type(value=Consumiveis.class, name = "Consumiveis")
+    @JsonSubTypes.Type(value=Beleza.class, name = "Beleza")
 })
 public abstract class Produto{
 	
@@ -36,7 +35,7 @@ public abstract class Produto{
 	private float preco;
 	private String validade;
 	@ManyToOne
-	@JoinColumn(name = "idLojao")
+	@JoinColumn(name = "idLoja")
 	@JsonBackReference
 	private Loja loja;
 	

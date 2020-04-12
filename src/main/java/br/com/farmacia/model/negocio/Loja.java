@@ -10,10 +10,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -29,22 +31,18 @@ public class Loja {
 	private String horarioFuncionamento;
 	@Column(name = "Entregas")
 	private boolean entregaEmCasa;
-	@OneToOne(
-			fetch = FetchType.EAGER,
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
-			)
-	@Column(name = "idRede")
+	@ManyToOne
+	@JsonBackReference
+	@JoinColumn(name = "idRede")
 	private Rede rede;
 	@OneToMany(
-			mappedBy = "emprestimo",
+			mappedBy = "loja",
 			fetch = FetchType.EAGER,
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 		)
 	@JsonManagedReference
 	private List<Produto> produtos;
-	
 	
 	public Loja() {
 		this.setLocal("Localização não conhecida");
@@ -53,6 +51,13 @@ public class Loja {
 	}
 	
 	public Loja(String local, String horarioFuncionamento, boolean entregaEmCasa) {
+		this.local = local;
+		this.horarioFuncionamento = horarioFuncionamento;
+		this.entregaEmCasa = entregaEmCasa;
+	}
+	
+	public Loja(Integer id, String local, String horarioFuncionamento, boolean entregaEmCasa) {
+		this.rede = new Rede(id);
 		this.local = local;
 		this.horarioFuncionamento = horarioFuncionamento;
 		this.entregaEmCasa = entregaEmCasa;
@@ -73,6 +78,9 @@ public class Loja {
 	}
 
 	//getters and setters
+	public Integer getId() {
+		return id;
+	}
 	public String getLocal() {
 		return local;
 	}
@@ -102,5 +110,30 @@ public class Loja {
 	}
 	public void setRede(Rede rede) {
 		this.rede = rede;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((local == null) ? 0 : local.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Loja other = (Loja) obj;
+		if (local == null) {
+			if (other.local != null)
+				return false;
+		} else if (!local.equals(other.local))
+			return false;
+		return true;
 	}
 }

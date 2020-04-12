@@ -7,41 +7,41 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.com.farmacia.model.negocio.Pharmacos;
-import br.com.farmacia.model.service.PharmacosService;
+import br.com.farmacia.model.negocio.Produto;
+import br.com.farmacia.model.service.ProdutoService;
 
 @Controller
-public class PharmacosController {
+public class ProdutoController {
 
 	@Autowired
-	private PharmacosService service;
+	private ProdutoService service;
 	
-	@RequestMapping(value = "/produto/pharmacos", method = RequestMethod.GET)
+	@RequestMapping(value = "/produtos", method = RequestMethod.GET)
 	public String showLista(
 				Model model
 			) {
-		model.addAttribute("pharmacos", service.obterLista());
+		model.addAttribute("produtos", service.obterLista());
 		
-		return "/produto/pharmaco/lista";
+		return "produto/lista";
 	}
 	
-	@RequestMapping(value = "/produto/pharmaco", method = RequestMethod.GET)
+	@RequestMapping(value = "/produto", method = RequestMethod.GET)
 	public String showDetalhe() {
-		return "/produto/pharmaco/detalhe";
+		return "produto/detalhe";
 	}
 	
-	@RequestMapping(value = "/produto/pharmaco", method = RequestMethod.POST)
+	@RequestMapping(value = "/produto", method = RequestMethod.POST)
 	public String incluir(
 				Model model,
-				Pharmacos pharmaco
+				Produto produto
 			) {
 		
-		service.incluir(pharmaco);
+		service.incluir(produto);
 		
 		return this.showLista(model);
 	}
 	
-	@RequestMapping(value = "/produto/pharmaco/excluir/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/produto/excluir/{id}", method = RequestMethod.GET)
 	public String excluir(
 				Model model,
 				@PathVariable Integer id
@@ -52,10 +52,10 @@ public class PharmacosController {
 		return this.showLista(model);
 	}
 
-	public PharmacosService getService() {
+	public ProdutoService getService() {
 		return service;
 	}
-	public void setService(PharmacosService service) {
+	public void setService(ProdutoService service) {
 		this.service = service;
 	}
 }

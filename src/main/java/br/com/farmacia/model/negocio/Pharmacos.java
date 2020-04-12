@@ -5,7 +5,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TLivro")
+@Table(name = "TPharmacos")
 @PrimaryKeyJoinColumn(name = "idProduto")
 public class Pharmacos extends Produto{
 	private String formula;
